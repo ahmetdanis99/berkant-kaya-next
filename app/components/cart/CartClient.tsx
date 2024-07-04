@@ -4,8 +4,8 @@ import useCart from "@/hooks/useCart";
 import PageContainer from "../containers/PageContainer";
 import Image from "next/image";
 import Button from "../general/Button";
-import Counter from "../general/Counter";
 import { cardProductProps } from "../detail/DetailClient";
+import Counter from "../general/Counter";
 
 export default function CartClient() {
   const { cartProducts, removeFromCart, removeCart, addToBasketIncrease, addToBasketDecrease } = useCart();

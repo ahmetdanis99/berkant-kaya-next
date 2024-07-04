@@ -69,50 +69,50 @@ export default function CreateForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const handleChange = async () => {
-      toast.success("Yükleme işlemi Basarılı");
-      try {
-        const storage = getStorage(firebaseApp);
-        const storageRef = ref(storage, "images/shop.jpg");
+  // const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+  //   const handleChange = async () => {
+  //     toast.success("Yükleme işlemi Basarılı");
+  //     try {
+  //       const storage = getStorage(firebaseApp);
+  //       const storageRef = ref(storage, "images/shop.jpg");
 
-        const uploadTask = uploadBytesResumable(storageRef, img);
+  //       const uploadTask = uploadBytesResumable(storageRef, img);
 
-        await new Promise<void>((resolve, reject) => {
-          uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              console.log("Upload is " + progress + "% done");
-              switch (snapshot.state) {
-                case "paused":
-                  console.log("Upload is paused");
-                  break;
-                case "running":
-                  console.log("Upload is running");
-                  break;
-              }
-            },
-            (error) => {
-              reject(error);
-            },
-            () => {
-              getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                console.log("File available at", downloadURL);
-                setUploadedImg(downloadURL);
-              });
-              resolve();
-            }
-          );
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    await handleChange();
-    let newData = { ...data, image: uploadedImg };
-    console.log(newData);
-  };
+  //       await new Promise<void>((resolve, reject) => {
+  //         uploadTask.on(
+  //           "state_changed",
+  //           (snapshot) => {
+  //             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //             console.log("Upload is " + progress + "% done");
+  //             switch (snapshot.state) {
+  //               case "paused":
+  //                 console.log("Upload is paused");
+  //                 break;
+  //               case "running":
+  //                 console.log("Upload is running");
+  //                 break;
+  //             }
+  //           },
+  //           (error) => {
+  //             reject(error);
+  //           },
+  //           () => {
+  //             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+  //               console.log("File available at", downloadURL);
+  //               setUploadedImg(downloadURL);
+  //             });
+  //             resolve();
+  //           }
+  //         );
+  //       });
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   await handleChange();
+  //   let newData = { ...data, image: uploadedImg };
+  //   console.log(newData);
+  // };
 
   const category = watch("category");
   const setCustomValue = (id: string, value: any) => {
@@ -149,7 +149,6 @@ export default function CreateForm() {
         ))}
       </div>
       <input className="mb-2" type="file" onChange={onChangeFunc}></input>
-      <Button text="Ürün Oluştur" onClick={handleSubmit(onSubmit)} />
     </div>
   );
 }
