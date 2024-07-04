@@ -13,7 +13,7 @@ interface ButtonProps {
 export default function Button({ text, onClick, small, outline, icon: Icon, disabled}: ButtonProps) {
   return (
     <button
-      className={`rounded-lg p-3 ${
+      className={`flex items-center justify-center gap-2 my-1 rounded-lg p-3 ${
         outline ? "border text-black" : "bg-black text-white"
       } 
   ${small ? "w-[250px]" : "w-full"}`}

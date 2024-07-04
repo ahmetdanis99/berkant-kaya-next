@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import PageContainer from "../containers/PageContainer";
-import Counter from "../general/counter";
 import { useEffect, useState } from "react";
 import { Rating } from "@mui/material";
 import Button from "../general/Button";
 import Comment from "./Comment";
 import useCart from "@/hooks/useCart";
+import Counter from "../general/Counter";
 
 export type cardProductProps = {
   id: string;
@@ -20,7 +20,6 @@ export type cardProductProps = {
 };
 
 export default function DetailClient({ product }: { product: any }) {
-  
   const { productCartQty, addToBasket, cartProducts } = useCart();
   const [displayButton, setDisplayButton] = useState(false);
 
@@ -60,7 +59,7 @@ export default function DetailClient({ product }: { product: any }) {
       <PageContainer>
         <div className="block md:flex gap-10 justify-center">
           <div className="relative h-[200px] w-[200px] md:w-[400px] md:h-[400px] mb-3 md:mb-0">
-            <Image src={product?.image} fill alt=""/>
+            <Image src={product?.image} fill alt="" />
           </div>
           <div className="w-full md:w-1/2 space-y-3">
             <div className="text-xl md:text-2xl">{product?.name}</div>

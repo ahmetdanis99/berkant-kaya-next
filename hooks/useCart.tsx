@@ -8,6 +8,9 @@ interface cartContextPorps {
   cartProducts: cardProductProps[] | null;
   addToBasket: (product: cardProductProps) => void;
   removeFromCart: (product: cardProductProps) => void;
+  removeCart: () => void;
+  addToBasketIncrease: (product: cardProductProps) => void;
+  addToBasketDecrease: (product: cardProductProps) => void;
 }
 
 const CartContext = createContext<cartContextPorps | null>(null);
@@ -33,6 +36,53 @@ export const CartContextProvider = (props: cardContextProviderProps) => {
       }
     }
   }, []);
+  const addToBasketIncrease = useCallback(
+    (product: cardProductProps) => {
+      let updatedCart;
+      if (product.quantity == 10) {
+        return toast.error("Daha fazla ekleyemezsin");
+      }
+      if (cartProducts) {
+        updatedCart = [...cartProducts];
+        const existingItem = cartProducts.findIndex((item) => item.id === product.id);
+
+        if (existingItem > -1) {
+          updatedCart[existingItem].quantity = ++updatedCart[existingItem].quantity;
+        }
+        setCartProduct(updatedCart);
+        toast.success("Sepete Güncellendi!");
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+      }
+    },
+    [cartProducts]
+  );
+
+  const addToBasketDecrease = useCallback(
+    (product: cardProductProps) => {
+      let updatedCart;
+      if (product.quantity == 1) {
+        return toast.error("Daha az ekleyemezsin");
+      }
+      if (cartProducts) {
+        updatedCart = [...cartProducts];
+        const existingItem = cartProducts.findIndex((item) => item.id === product.id);
+
+        if (existingItem > -1) {
+          updatedCart[existingItem].quantity = --updatedCart[existingItem].quantity;
+        }
+        setCartProduct(updatedCart);
+        toast.success("Sepete Güncellendi!");
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+      }
+    },
+    [cartProducts]
+  );
+
+  const removeCart = useCallback(() => {
+    setCartProduct(null);
+    toast.success("Sepet Temizlendi...");
+    localStorage.removeItem("cart");
+  }, []);
 
   const addToBasket = useCallback((product: cardProductProps) => {
     setCartProduct((prev) => {
@@ -48,22 +98,28 @@ export const CartContextProvider = (props: cardContextProviderProps) => {
     });
   }, []);
 
-  const removeFromCart = useCallback((product: cardProductProps) => {
-    if (cartProducts) {
-      const filteredProducts = cartProducts.filter((cart) => cart.id !== product.id);
+  const removeFromCart = useCallback(
+    (product: cardProductProps) => {
+      if (cartProducts) {
+        const filteredProducts = cartProducts.filter((cart) => cart.id !== product.id);
 
-      setCartProduct(filteredProducts);
-      toast.success("Ürün Sepetten Silindi!");
-      localStorage.setItem("cart", JSON.stringify(filteredProducts));
-      return filteredProducts;
-    }
-  }, [cartProducts]);
+        setCartProduct(filteredProducts);
+        toast.success("Ürün Sepetten Silindi!");
+        localStorage.setItem("cart", JSON.stringify(filteredProducts));
+        return filteredProducts;
+      }
+    },
+    [cartProducts]
+  );
 
   const value = {
     productCartQty,
     addToBasket,
     cartProducts,
     removeFromCart,
+    removeCart,
+    addToBasketIncrease,
+    addToBasketDecrease
   };
 
   return <CartContext.Provider value={value} {...props} />;
