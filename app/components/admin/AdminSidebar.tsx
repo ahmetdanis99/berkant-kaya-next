@@ -17,6 +17,11 @@ export default function AdminSidebar() {
       url: "/admin/create",
     },
     {
+      name: "Ürünleri Yönet",
+      icon: MdBorderOuter,
+      url: "/admin/manage",
+    },
+    {
       name: "Siparislerim",
       icon: MdOutlineCreate,
       url: "/admin/order",
