@@ -22,7 +22,6 @@ export default function LoginClient({ currentUser }: LoginClientProps) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<FieldValues>();
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -47,7 +46,7 @@ export default function LoginClient({ currentUser }: LoginClientProps) {
       router.push("/cart");
       router.refresh();
     }
-  }, []);
+  }, [currentUser,router]);
   return (
     <AuthContainer>
       <div className="w-full md:w-[500px] p-3 shadow-lg rounded-md">
